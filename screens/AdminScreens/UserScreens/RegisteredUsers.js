@@ -68,9 +68,18 @@ const RegisteredUsers = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={{
+        elevation: 7,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 1 },
+        shadowRadius: 2,
+        shadowOpacity: 0.3,
         padding: 16,
-        borderBottomWidth: 1,
-        borderColor: 'lightgray',
+        borderRadius: 10,
+        marginRight: 10,
+        marginLeft: 1,
+        marginTop: 3,
+        marginBottom: 7,
+        backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}
@@ -83,47 +92,47 @@ const RegisteredUsers = ({ navigation }) => {
   );
   function renderHeader() {
     return (
-        <View
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginVertical: 12,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
+          <MaterialCommunityIcons
+            name="view-dashboard"
+            size={28}
+            color={COLORS.primaryRed}
+          />
+        </TouchableOpacity>
+        <View>
+          <View
             style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 12,
+              height: 6,
+              width: 6,
+              backgroundColor: COLORS.primaryRed,
+              borderRadius: 3,
+              position: 'absolute',
+              right: 5,
+              top: 5,
             }}
-        >
-            <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
-                <MaterialCommunityIcons
-                    name="view-dashboard"
-                    size={28}
-                    color={COLORS.primaryRed}
-                />
-            </TouchableOpacity>
-            <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: COLORS.primaryRed,
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 5,
-                        top: 5,
-                    }}
-                ></View>
-                <TouchableOpacity onPress={() => console.log('Pressed')}>
-                    <Ionicons
-                        name="notifications-outline"
-                        size={28}
-                        color={COLORS.black}
-                    />
-                </TouchableOpacity>
-            </View>
+          ></View>
+          <TouchableOpacity onPress={() => console.log('Pressed')}>
+            <Ionicons
+              name="notifications-outline"
+              size={28}
+              color={COLORS.black}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
     )
-}
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-    {renderHeader()}
+      {renderHeader()}
       <LoadingModal visible={isLoading} />
       <Text style={styles.title}>Registered Users</Text>
       <View style={styles.row}>
@@ -157,14 +166,15 @@ const RegisteredUsers = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal:16
+    paddingHorizontal: 16,
+    backgroundColor: 'white'
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
-    color:COLORS.primaryRed,
+    color: COLORS.primaryRed,
     textAlign: 'center',
-    marginTop: 30,
+    marginTop: 20,
   },
   filterIcon: {
     width: 20,
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
   },
   searchQuery: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'lightgray',
     margin: 16,
     padding: 8,

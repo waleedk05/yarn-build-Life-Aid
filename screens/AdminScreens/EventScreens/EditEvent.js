@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: 'white'
   },
   input: {
     borderWidth: 1,
@@ -211,8 +212,9 @@ const styles = StyleSheet.create({
   title: {
     color: COLORS.primaryRed,
     fontWeight: 'bold',
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 32,
+    marginBottom: 25,
+    alignSelf: 'center'
   },
 });
 

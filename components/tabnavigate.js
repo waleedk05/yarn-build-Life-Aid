@@ -100,37 +100,35 @@ function Bottomtab({ navigation }) {
                     shadowOffset: { width: 0, height: 2 },
                     shadowRadius: 6,
                     shadowOpacity: 0.3,
-                    borderBottomLeftRadius:20,
-                    borderBottomRightRadius:20,
 
                 },
 
                 headerRight: () => ( // Custom header with image
 
-                <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: 'black',
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 15,
-                        top: -6,
-                    }}
-                ></View>
-                <TouchableOpacity  onPress={() => console.log('Pressed')}>
-                    <Ionicons style={{
-                        position: 'absolute',
-                        right: 10,
-                        top: -10,
-                    }}
-                        name="notifications-outline"
-                        size={28}
-                        color={'white'}
-                    />
-                </TouchableOpacity>
-            </View>
+                    <View>
+                        <View
+                            style={{
+                                height: 6,
+                                width: 6,
+                                backgroundColor: 'black',
+                                borderRadius: 3,
+                                position: 'absolute',
+                                right: 15,
+                                top: -6,
+                            }}
+                        ></View>
+                        <TouchableOpacity onPress={() => console.log('Pressed')}>
+                            <Ionicons style={{
+                                position: 'absolute',
+                                right: 10,
+                                top: -10,
+                            }}
+                                name="notifications-outline"
+                                size={28}
+                                color={'white'}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 ),
                 headerLeft: () => ( // Custom header with image
 
@@ -161,36 +159,35 @@ function Bottomtab({ navigation }) {
                         shadowOffset: { width: 0, height: 2 },
                         shadowRadius: 6,
                         shadowOpacity: 0.3,
-                        borderBottomLeftRadius:20,
-                       borderBottomRightRadius:20,
+
                     },
                     headerRight: () => ( // Custom header with image
 
-                <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: 'black',
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 15,
-                        top: -6,
-                    }}
-                ></View>
-                <TouchableOpacity  onPress={() => console.log('Pressed')}>
-                    <Ionicons style={{
-                        position: 'absolute',
-                        right: 10,
-                        top: -10,
-                    }}
-                        name="notifications-outline"
-                        size={28}
-                        color={'white'}
-                    />
-                </TouchableOpacity>
-            </View>
-                ),
+                        <View>
+                            <View
+                                style={{
+                                    height: 6,
+                                    width: 6,
+                                    backgroundColor: 'black',
+                                    borderRadius: 3,
+                                    position: 'absolute',
+                                    right: 15,
+                                    top: -6,
+                                }}
+                            ></View>
+                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                                <Ionicons style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: -10,
+                                }}
+                                    name="notifications-outline"
+                                    size={28}
+                                    color={'white'}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
                 }} />
             <Tab.Screen name="DonorPage" component={DonorPage}
                 options={{
@@ -203,36 +200,35 @@ function Bottomtab({ navigation }) {
                         shadowOffset: { width: 0, height: 2 },
                         shadowRadius: 6,
                         shadowOpacity: 0.3,
-                        borderBottomLeftRadius:20,
-                       borderBottomRightRadius:20,
+
                     },
                     headerRight: () => ( // Custom header with image
 
-                <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: 'black',
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 15,
-                        top: -6,
-                    }}
-                ></View>
-                <TouchableOpacity  onPress={() => console.log('Pressed')}>
-                    <Ionicons style={{
-                        position: 'absolute',
-                        right: 10,
-                        top: -10,
-                    }}
-                        name="notifications-outline"
-                        size={28}
-                        color={'white'}
-                    />
-                </TouchableOpacity>
-            </View>
-                ),
+                        <View>
+                            <View
+                                style={{
+                                    height: 6,
+                                    width: 6,
+                                    backgroundColor: 'black',
+                                    borderRadius: 3,
+                                    position: 'absolute',
+                                    right: 15,
+                                    top: -6,
+                                }}
+                            ></View>
+                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                                <Ionicons style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: -10,
+                                }}
+                                    name="notifications-outline"
+                                    size={28}
+                                    color={'white'}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
                 }} />
             <Tab.Screen name="EventPage" component={EventPage}
                 options={{
@@ -245,36 +241,35 @@ function Bottomtab({ navigation }) {
                         shadowOffset: { width: 0, height: 2 },
                         shadowRadius: 6,
                         shadowOpacity: 0.3,
-                        borderBottomLeftRadius:20,
-                        borderBottomRightRadius:20,
+
                     },
                     headerRight: () => ( // Custom header with image
 
-                <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: 'black',
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 15,
-                        top: -6,
-                    }}
-                ></View>
-                <TouchableOpacity  onPress={() => console.log('Pressed')}>
-                    <Ionicons style={{
-                        position: 'absolute',
-                        right: 10,
-                        top: -10,
-                    }}
-                        name="notifications-outline"
-                        size={28}
-                        color={'white'}
-                    />
-                </TouchableOpacity>
-            </View>
-                ),
+                        <View>
+                            <View
+                                style={{
+                                    height: 6,
+                                    width: 6,
+                                    backgroundColor: 'black',
+                                    borderRadius: 3,
+                                    position: 'absolute',
+                                    right: 15,
+                                    top: -6,
+                                }}
+                            ></View>
+                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                                <Ionicons style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: -10,
+                                }}
+                                    name="notifications-outline"
+                                    size={28}
+                                    color={'white'}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
                 }} />
             <Tab.Screen name="MapPage" component={MapPage}
                 options={{
@@ -287,36 +282,34 @@ function Bottomtab({ navigation }) {
                         shadowOffset: { width: 0, height: 2 },
                         shadowRadius: 6,
                         shadowOpacity: 0.3,
-                        borderBottomLeftRadius:20,
-                        borderBottomRightRadius:20,
                     },
                     headerRight: () => ( // Custom header with image
 
-                <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: 'black',
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 15,
-                        top: -6,
-                    }}
-                ></View>
-                <TouchableOpacity  onPress={() => console.log('Pressed')}>
-                    <Ionicons style={{
-                        position: 'absolute',
-                        right: 10,
-                        top: -10,
-                    }}
-                        name="notifications-outline"
-                        size={28}
-                        color={'white'}
-                    />
-                </TouchableOpacity>
-            </View>
-                ),
+                        <View>
+                            <View
+                                style={{
+                                    height: 6,
+                                    width: 6,
+                                    backgroundColor: 'black',
+                                    borderRadius: 3,
+                                    position: 'absolute',
+                                    right: 15,
+                                    top: -6,
+                                }}
+                            ></View>
+                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                                <Ionicons style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: -10,
+                                }}
+                                    name="notifications-outline"
+                                    size={28}
+                                    color={'white'}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
                 }} />
 
         </Tab.Navigator>

@@ -28,48 +28,48 @@ const ViewUserInfo = ({ route }) => {
 
   function renderHeader() {
     return (
-        <View
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginVertical: 12,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
+          <MaterialCommunityIcons
+            name="view-dashboard"
+            size={28}
+            color={COLORS.primaryRed}
+          />
+        </TouchableOpacity>
+        <View>
+          <View
             style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 12,
+              height: 6,
+              width: 6,
+              backgroundColor: COLORS.primaryRed,
+              borderRadius: 3,
+              position: 'absolute',
+              right: 5,
+              top: 5,
             }}
-        >
-            <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
-                <MaterialCommunityIcons
-                    name="view-dashboard"
-                    size={28}
-                    color={COLORS.primaryRed}
-                />
-            </TouchableOpacity>
-            <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: COLORS.primaryRed,
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 5,
-                        top: 5,
-                    }}
-                ></View>
-                <TouchableOpacity onPress={() => console.log('Pressed')}>
-                    <Ionicons
-                        name="notifications-outline"
-                        size={28}
-                        color={COLORS.black}
-                    />
-                </TouchableOpacity>
-            </View>
+          ></View>
+          <TouchableOpacity onPress={() => console.log('Pressed')}>
+            <Ionicons
+              name="notifications-outline"
+              size={28}
+              color={COLORS.black}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
     )
-}
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-    {renderHeader()}
-      <Text style={styles.title}>Donor Information</Text>
+      {renderHeader()}
+      <Text style={styles.title}>User Information</Text>
 
       {/* First Row */}
       <View style={styles.row}>
@@ -121,15 +121,17 @@ const ViewUserInfo = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
-    color:COLORS.primaryRed,
+    color: COLORS.primaryRed,
     textAlign: 'center',
     marginTop: 30,
     marginBottom: 10,
+
   },
   row: {
     flexDirection: 'row',
@@ -138,12 +140,18 @@ const styles = StyleSheet.create({
   },
   infoItem: {
     flex: 1,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 8,
-    marginTop: 5,
-    margin: 4,
-    borderRadius: 8,
+    elevation: 12,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 0
   },
   infoLabel: {
     fontSize: 16,
@@ -156,15 +164,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: COLORS.primaryRed,
-    padding: 10,
+    padding: 15,
     borderRadius: 8,
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 15,
+    marginRight: 60,
+    marginLeft: 60
   },
   buttonText: {
     fontWeight: 'bold',
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
   },
 });
 

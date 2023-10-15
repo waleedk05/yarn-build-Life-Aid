@@ -44,7 +44,7 @@
     "react-native-google-places-autocomplete": "^2.5.2",
     "react-native-image-slider-show": "^1.0.3",
     "react-native-linear-gradient": "^2.8.3",
-    "react-native-maps": "^1.8.0",
+    "react-native-maps": "1.7.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-pager-view": "6.2.0",

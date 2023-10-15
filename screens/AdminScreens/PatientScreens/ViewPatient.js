@@ -19,22 +19,12 @@ const PatientDetails = ({ route }) => {
 
   const { patientData } = route.params;
   const navigation = useNavigation();
-  const [counter, setCounter] = useState(0); // Add this line
 
   const handleEdit = () => {
-    // Generate a unique ID for the patient
 
-    const generatePatientID = () => {
-      setCounter(counter + 1); // Increment counter
-      const formattedID = counter.toString().padStart(3, '0');
-      console.log(formattedID)
-      return formattedID;
-    };
-    const uniquePatientID = generatePatientID(); // Generate a new patient ID
 
-    // Pass the patient ID along with the patient data to the ModifyPatient screen
     // Navigate to the EditPatient screen with the patientData
-    navigation.navigate('ModifyPatient', { patientData, uniqueID: uniquePatientID });
+    navigation.navigate('ModifyPatient', { patientData });
   };
 
 
@@ -117,11 +107,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoItem: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 8,
-    margin: 4,
-    borderRadius: 8,
+    elevation: 10,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginTop: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 0
   },
   infoLabel: {
     fontSize: 16,
@@ -137,13 +134,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginVertical: 15,
-    marginLeft: 50,
-    marginRight: 50
+    marginLeft: 80,
+    marginRight: 80
   },
   buttonText: {
     fontWeight: 'bold',
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
   },
 });
 

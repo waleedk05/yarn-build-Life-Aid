@@ -143,6 +143,7 @@ const ManageEvent = ({ navigation }) => {
           </TouchableOpacity>
         )}
       />
+
       <TextInput
         placeholder="Event Title"
         value={newEvent.title}
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: 'white'
   },
   title: {
     color: COLORS.primaryRed,
@@ -174,10 +176,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   eventItem: {
-    backgroundColor: '#E5E5E5',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
+    elevation: 10,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginTop: 8,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 20,
+
   },
   buttonText: {
     fontWeight: 'bold',
@@ -185,9 +196,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   eventTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
+  },
+  eventLocation: {
+    fontSize: 15
+  },
+  eventDates: {
+    fontSize: 15
+  },
+  eventInterested: {
+    fontSize: 15,
   },
   button: {
     backgroundColor: COLORS.primaryRed,
@@ -199,11 +219,12 @@ const styles = StyleSheet.create({
     height: 55,
     width: '100%',
     borderColor: '#ccc',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
     marginBottom: 16,
     paddingHorizontal: 10,
-    fontSize: 15
+    fontSize: 15,
+
   },
 });
 

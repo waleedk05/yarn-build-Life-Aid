@@ -79,55 +79,62 @@ const SubtractQuantityForm = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Fill out the details of the patient to whom the blood will be transfused.</Text>
+      <View style={{
+        margin: 20,
+        flex: 1,
+        alignItems: 'flex-start',
+      }}>
+        <Text style={styles.title}>Fill out the details of the patient to whom the blood will be transfused.</Text>
 
-      <TextInput
-        placeholder="Donation ID"
-        value={donationId}
-        onChangeText={(text) => setDonationId(text)}
-        keyboardType="numeric"
-        style={styles.input}
-        maxLength={6} // Enforce exactly 6 digits
-      />
+        <TextInput
+          placeholder="Donation ID"
+          value={donationId}
+          onChangeText={(text) => setDonationId(text)}
+          keyboardType="numeric"
+          style={styles.input}
+          maxLength={6} // Enforce exactly 6 digits
+        />
 
-      <TextInput
-        placeholder="Patient Name"
-        value={patientName}
-        onChangeText={(text) => setpatientName(text)}
-        style={styles.input}
-      />
+        <TextInput
+          placeholder="Patient Name"
+          value={patientName}
+          onChangeText={(text) => setpatientName(text)}
+          style={styles.input}
+        />
 
-      <TextInput
-        value={item.itemName}
-        editable={false} // Set to false to make it uneditable
-        style={styles.input}
-      />
+        <TextInput
+          value={item.itemName}
+          editable={false} // Set to false to make it uneditable
+          style={styles.input}
+        />
 
-      {/* Display the selected donation date */}
-      <CustomDatePicker
-        selectedDate={donationDate}
-        onDateChange={(date) => {
-          setDonationDate(date);
-          setExpiryDate(calculateExpiryDate(date)); // Calculate and set the expiry date
-        }}
-      />
+        {/* Display the selected donation date */}
+        <CustomDatePicker
+          selectedDate={donationDate}
+          onDateChange={(date) => {
+            setDonationDate(date);
+            setExpiryDate(calculateExpiryDate(date)); // Calculate and set the expiry date
+          }}
+        />
 
-      <TextInput
-        placeholder="Units i.e (1 Unit =525mL)"
-        value={quantityChange}
-        onChangeText={(text) => setQuantityChange(text)}
-        style={styles.input}
-        keyboardType="numeric"
-      />
-      <View style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 20 }}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color={COLORS.primaryRed} />
-        ) : (
-          <TouchableOpacity style={styles.subtractButton} onPress={handleSubtract}>
-            <Text style={styles.buttonText}>Utilize</Text>
-          </TouchableOpacity>
-        )}
+        <TextInput
+          placeholder="Units i.e (1 Unit =525mL)"
+          value={quantityChange}
+          onChangeText={(text) => setQuantityChange(text)}
+          style={styles.input}
+          keyboardType="numeric"
+        />
+        <View style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 20 }}>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.primaryRed} />
+          ) : (
+            <TouchableOpacity style={styles.subtractButton} onPress={handleSubtract}>
+              <Text style={styles.buttonText}>Utilize</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
+
 
     </View>
   );
@@ -135,9 +142,8 @@ const SubtractQuantityForm = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
     flex: 1,
-    alignItems: 'flex-start',
+    backgroundColor: 'white'
   },
   title: {
     fontSize: 20,

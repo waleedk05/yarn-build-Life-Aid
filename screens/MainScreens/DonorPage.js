@@ -69,40 +69,42 @@ const DonorPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal:10,
+    marginHorizontal: 10,
   },
   sliderContainer: {
-    height: 200, 
+    height: 200,
     width: '100%',
-    marginTop:10,
+    marginTop: 20,
+
   },
   metricContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 20,
-    
+
   },
   metricBox: {
     flex: 1,
     borderColor: 'lightgrey',
     alignItems: 'center',
 
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   backgroundImage: {
     height: 210,
     width: '100%',
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
+
   },
   metricValue: {
     fontSize: 34,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white'
   },
   metricLabel: {
     fontSize: 22,
-    color:'white',
+    color: 'white',
     marginTop: 5,
   },
 });

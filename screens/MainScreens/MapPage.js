@@ -18,7 +18,7 @@ const bloodGroupColors = {
   'AB-': '#745508', //Brown
 };
 
-const MapScreen = () => {
+const MapPage = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const mapViewRef = useRef(null);
@@ -37,66 +37,70 @@ const MapScreen = () => {
     })();
   }, []);
 
-  
-    // Fetch nearby user data from Firestore
-    const fetchNearbyUsers = async (location, setNearbyUsers) => {
-      if (!location) return;
+  // Fetch nearby user data from Firestore
+  const fetchNearbyUsers = async () => {
+    if (!location) return;
 
-      const usersRef = collection(db, 'users');
-      const q = query(
-        usersRef,
-       );
+    const usersRef = collection(db, 'users');
+    const q = query(
+      usersRef,
+    );
 
-      try {
-        const querySnapshot = await getDocs(q);
-        const nearbyUsersData = [];
+    try {
+      const querySnapshot = await getDocs(q);
+      const nearbyUsersData = [];
 
-        querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-          // Check if the user data contains the 'location' property
-  if (userData.location && userData.location.latitude && userData.location.longitude) {
-         // Calculate distance between current user and fetched user
-      const distance = calculateDistance(
-        location.coords.latitude,
-        location.coords.longitude,
-        userData.location.latitude,
-        userData.location.longitude
-      );
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data();
+        // Check if the user data contains the 'location' property
+        if (userData.location && userData.location.latitude && userData.location.longitude) {
+          // Calculate distance between current user and fetched user
+          const distance = calculateDistance(
+            location.coords.latitude,
+            location.coords.longitude,
+            userData.location.latitude,
+            userData.location.longitude
+          );
 
-      // Define a maximum allowable distance (in meters)
-      const maxDistance = 100000; // Adjust as needed
+          // Define a maximum allowable distance (in meters)
+          const maxDistance = 10000000; // Adjust as needed
 
-      // If the user is within the allowable distance, add them to the list
-      if (distance <= maxDistance) {
-        nearbyUsersData.push(userData);
-      }
+          // If the user is within the allowable distance, add them to the list
+          if (distance <= maxDistance) {
+            nearbyUsersData.push(userData);
+          }
+        }
+      });
+      console.log('Fetched nearby users:', nearbyUsersData); // Log the fetched data
+      setNearbyUsers(nearbyUsersData);
+      setNearbyUsers(nearbyUsersData);
+    } catch (error) {
+      console.error('Error fetching nearby users:', error);
     }
-        });
-        console.log('Fetched nearby users:', nearbyUsersData); // Log the fetched data
-    setNearbyUsers(nearbyUsersData);
-        setNearbyUsers(nearbyUsersData);
-      } catch (error) {
-        console.error('Error fetching nearby users:', error);
-      }
-    };
+  };
+
 
   // Function to calculate distance between two coordinates using Haversine formula
-const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371; // Radius of the Earth in kilometers
-  const dLat = degToRad(lat2 - lat1);
-  const dLon = degToRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c * 100000; // Convert to meters
-  return distance;
-};
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = degToRad(lat2 - lat1);
+    const dLon = degToRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c * 100000; // Convert to meters
+    return distance;
+  };
 
-// Function to convert degrees to radians
-const degToRad = (degrees) => {
-  return degrees * (Math.PI / 180);
-};
+  // Function to convert degrees to radians
+  const degToRad = (degrees) => {
+    return degrees * (Math.PI / 180);
+  };
+
+  useEffect(() => {
+    fetchNearbyUsers(); // Call the fetchNearbyUsers function here
+  }, [location]);
   const handleBackToCurrentLocation = () => {
     if (mapViewRef.current && location) {
       mapViewRef.current.animateToRegion({
@@ -112,7 +116,7 @@ const degToRad = (degrees) => {
     // Trigger the logic to reload the map here
     // Fetch location and nearby users, then update the state
     console.log('Reload Map button pressed');
-    
+
     // Clear the existing location and nearbyUsers
     setLocation(null);
     setNearbyUsers([]);
@@ -132,10 +136,6 @@ const degToRad = (degrees) => {
       fetchNearbyUsers();
     })();
   };
-  useEffect(() => {
-    // Call the fetchNearbyUsers function defined in the higher scope
-    fetchNearbyUsers(location, setNearbyUsers);
-  }, [location]);
 
 
   return (
@@ -196,7 +196,7 @@ const degToRad = (degrees) => {
       <CurrentLocationButton onPress={handleBackToCurrentLocation} />
 
       <TouchableOpacity style={styles.reloadButton} onPress={handleReloadMap}>
-      <Image   style={{ width: 30, height: 30 }}source={icons.refreshIcon}/>
+        <Image style={{ width: 30, height: 30 }} source={icons.refreshIcon} />
       </TouchableOpacity>
     </View>
   );
@@ -214,10 +214,10 @@ const styles = StyleSheet.create({
   },
   reloadButton: {
     position: 'absolute',
-    top: 10, 
-    right: 10, 
+    top: 10,
+    right: 10,
     padding: 10,
   },
 });
 
-export default MapScreen;
+export default MapPage;

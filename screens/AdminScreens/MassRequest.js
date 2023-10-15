@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Image, SafeAreaView, BackHandler, Alert } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config';
 import { COLORS, icons } from '../../constants';
 import CustomButton from '../../components/CustomButton';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import BloodGroupFilterModal from '../../components/BloodGroupFilterModal';
+import LoadingModal from '../../components/LoadingModel';
 
 const MassRequest = ({ navigation }) => {
   const [donors, setDonors] = useState([]);
@@ -15,46 +16,63 @@ const MassRequest = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const [buttonColor, setButtonColor] = useState(COLORS.primaryRed); // State for button color
+  // To show loading on the screen
+  const [isLoading, setIsLoading] = useState(true);
 
   function renderHeader() {
+
     return (
-        <View
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginVertical: 12,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
+          <MaterialCommunityIcons
+            name="view-dashboard"
+            size={28}
+            color={COLORS.primaryRed}
+          />
+        </TouchableOpacity>
+        <View>
+          <View
             style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 12,
+              height: 6,
+              width: 6,
+              backgroundColor: COLORS.primaryRed,
+              borderRadius: 3,
+              position: 'absolute',
+              right: 5,
+              top: 5,
             }}
-        >
-            <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
-                <MaterialCommunityIcons
-                    name="view-dashboard"
-                    size={28}
-                    color={COLORS.primaryRed}
-                />
-            </TouchableOpacity>
-            <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: COLORS.primaryRed,
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 5,
-                        top: 5,
-                    }}
-                ></View>
-                <TouchableOpacity onPress={() => console.log('Pressed')}>
-                    <Ionicons
-                        name="notifications-outline"
-                        size={28}
-                        color={COLORS.black}
-                    />
-                </TouchableOpacity>
-            </View>
+          ></View>
+          <TouchableOpacity onPress={() => console.log('Pressed')}>
+            <Ionicons
+              name="notifications-outline"
+              size={28}
+              color={COLORS.black}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
     )
-}
+  }
+
+  //Function to navigate back when hardware back button is pressed
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true; // Prevent default behavior (exit the app)
+      }
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
+
 
   useEffect(() => {
     fetchData();
@@ -72,6 +90,7 @@ const MassRequest = ({ navigation }) => {
         }
       });
       setDonors(donorData);
+      setIsLoading(false); // Set loading to false when done
     } catch (error) {
       console.error('Error fetching donors:', error);
     }
@@ -109,6 +128,12 @@ const MassRequest = ({ navigation }) => {
     // Implement the logic to send requests to selected donors
     // You can send requests to the users in the selectedDonors array
     console.log('Sending requests to:', selectedDonors);
+    // Show an alert after sending requests
+    Alert.alert(
+      'Request Sent',
+      'Your request has been sent successfully.',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
     // Clear the selection after sending requests
     setSelectedDonors([]);
     setSelectAll(false); // Deselect all after sending requests
@@ -117,11 +142,17 @@ const MassRequest = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={{
+        elevation: 7,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 1 },
+        shadowRadius: 2,
+        shadowOpacity: 0.3,
         padding: 16,
-        borderBottomWidth: 1,
-        borderColor: 'lightgray',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        borderRadius: 10,
+        marginRight: 10,
+        marginLeft: 1,
+        marginTop: 3,
+        marginBottom: 7,
         backgroundColor: selectedDonors.find((selected) => selected.id === item.id)
           ? 'lightgreen'
           : 'white',
@@ -134,7 +165,8 @@ const MassRequest = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    {renderHeader()}
+      <LoadingModal visible={isLoading} />
+      {renderHeader()}
       <Text style={styles.title}>Mass Request</Text>
       <View style={styles.row}>
         <TextInput
@@ -165,26 +197,30 @@ const MassRequest = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={filteredDonors}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        style={styles.list}
       />
+
+
       <BloodGroupFilterModal
         isVisible={isModalVisible}
         onApplyFilter={applyBloodGroupFilter}
         onClose={() => setIsModalVisible(false)}
       />
       <View style={{ borderRadius: 30, marginHorizontal: 20 }}>
-  <CustomButton
-    title={`Send Requests to ${selectedDonors.length} ${selectedBloodGroup} Donors`}
-    onPress={sendRequests}
-    disabled={selectedDonors.length === 0}
-    color={buttonColor}
-  />
-</View>
+        <CustomButton
+          title={`Send Requests to ${selectedDonors.length} ${selectedBloodGroup} Donors`}
+          onPress={sendRequests}
+          disabled={selectedDonors.length === 0}
+          color={buttonColor}
+        />
+      </View>
     </SafeAreaView>
-    
+
   );
 };
 
@@ -192,13 +228,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: 'white'
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 30,
-    color:COLORS.primaryRed
+    marginTop: 20,
+    color: COLORS.primaryRed
   },
   filterIcon: {
     width: 20,
@@ -220,17 +257,21 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   selectAll: {
-    paddingVertical:4,
+    paddingVertical: 4,
     marginRight: 290,
     marginBottom: 8,
-    width:85,
+    width: 85,
     backgroundColor: COLORS.primaryRed,
-    borderRadius:5
+    borderRadius: 5,
+
   },
   selectAllText: {
     padding: 2,
     color: 'white',
   },
+  list: {
+    marginBottom: 5
+  }
 });
 
 export default MassRequest;

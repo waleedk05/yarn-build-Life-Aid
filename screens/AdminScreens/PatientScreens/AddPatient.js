@@ -44,16 +44,22 @@ const AddPatient = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add New Patient</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Patient Name"
-        value={patientName}
-        onChangeText={(text) => setPatientName(text)}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleAddPatient}>
-        <Text style={styles.buttonText}>Add Patient</Text>
-      </TouchableOpacity>
+      <View style={{
+        marginLeft: 15,
+        marginRight: 15
+      }}>
+        <Text style={styles.title}>Add New Patient</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Patient Name"
+          value={patientName}
+          onChangeText={(text) => setPatientName(text)}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleAddPatient}>
+          <Text style={styles.buttonText}>Add Patient</Text>
+        </TouchableOpacity>
+
+      </View>
     </View>
   );
 };
@@ -63,8 +69,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    marginLeft: 15,
-    marginRight: 15
+    backgroundColor: 'white'
+
   },
   title: {
     color: COLORS.primaryRed,

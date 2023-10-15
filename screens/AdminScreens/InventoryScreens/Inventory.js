@@ -37,6 +37,8 @@ const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
+  // To show loading on the screen
+  const [isLoading, setIsLoading] = useState(true);
 
   const calculateTotalDonations = () => {
     return inventoryItems.reduce((total, item) => total + item.totalUnitQuantity, 0);
@@ -75,8 +77,7 @@ const Inventory = () => {
     return quantity < 10 ? `0${quantity}` : `${quantity}`;
   };
 
-  // To show loading on the screen
-  const [isLoading, setIsLoading] = useState(true);
+
   //To fetch total quantity from the database
   useEffect(() => {
     const fetchTotalUnitQuantity = async () => {
@@ -191,6 +192,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
     padding: 7,
+    backgroundColor: 'white'
   },
   refreshButton: {
     position: 'absolute',

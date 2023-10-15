@@ -23,10 +23,10 @@ const ModifyPatient = () => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const { patientData, uniqueID } = route.params || {};
+  const { patientData } = route.params || {};
 
   const [editedData, setEditedData] = useState({
-    patientID: uniqueID || '', // Use the generated patient ID
+    patientID: patientData.patientID || '', // Use the generated patient ID
     age: patientData.age || '',
     registrationDate: patientData.registrationDate || '',
     previousAppointment: patientData.previousAppointment || '',
@@ -113,7 +113,7 @@ const ModifyPatient = () => {
         placeholder="Patient ID"
         value={editedData.patientID}
         keyboardType="numeric"
-        editable={false} // Make the field uneditable
+        onChangeText={(text) => setEditedData({ ...editedData, patientID: text })}
       />
       {/* Age Picker */}
       <View style={styles.datePickerContainer}>
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: 'white'
   },
   title: {
     color: COLORS.primaryRed,

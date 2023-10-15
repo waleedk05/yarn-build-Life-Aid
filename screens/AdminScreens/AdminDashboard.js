@@ -163,7 +163,7 @@ const AdminDashboard = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={{ marginHorizontal: 22 }}>
                 {renderHeader()}
                 {renderFeatures()}

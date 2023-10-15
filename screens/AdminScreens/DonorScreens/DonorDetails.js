@@ -68,7 +68,7 @@ const DonorDetails = ({ navigation, route }) => {
     }
     return (
         <View style={styles.container}>
-        {renderHeader()}
+            {renderHeader()}
             <Text style={styles.title}>Donor Details</Text>
 
             <View style={styles.detialContainer}>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        backgroundColor: COLORS.secondaryWhite,
+        backgroundColor: 'white',
     },
     title: {
         fontSize: 36,

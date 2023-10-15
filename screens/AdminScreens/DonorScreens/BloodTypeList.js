@@ -28,43 +28,43 @@ const BloodTypeList = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   function renderHeader() {
     return (
-        <View
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginVertical: 12,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
+          <MaterialCommunityIcons
+            name="view-dashboard"
+            size={28}
+            color={COLORS.primaryRed}
+          />
+        </TouchableOpacity>
+        <View>
+          <View
             style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 12,
+              height: 6,
+              width: 6,
+              backgroundColor: COLORS.primaryRed,
+              borderRadius: 3,
+              position: 'absolute',
+              right: 5,
+              top: 5,
             }}
-        >
-            <TouchableOpacity onPress={() => navigation.navigate("AdminDashboard")}>
-                <MaterialCommunityIcons
-                    name="view-dashboard"
-                    size={28}
-                    color={COLORS.primaryRed}
-                />
-            </TouchableOpacity>
-            <View>
-                <View
-                    style={{
-                        height: 6,
-                        width: 6,
-                        backgroundColor: COLORS.primaryRed,
-                        borderRadius: 3,
-                        position: 'absolute',
-                        right: 5,
-                        top: 5,
-                    }}
-                ></View>
-                <TouchableOpacity onPress={() => console.log('Pressed')}>
-                    <Ionicons
-                        name="notifications-outline"
-                        size={28}
-                        color={COLORS.black}
-                    />
-                </TouchableOpacity>
-            </View>
+          ></View>
+          <TouchableOpacity onPress={() => console.log('Pressed')}>
+            <Ionicons
+              name="notifications-outline"
+              size={28}
+              color={COLORS.black}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
     )
-}
+  }
 
   useEffect(() => {
     const fetchBloodTypes = async () => {
@@ -85,7 +85,7 @@ const BloodTypeList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    {renderHeader()}
+      {renderHeader()}
       <LoadingModal visible={isLoading} />
       <Text style={styles.title}>Select a specific blood type to display details:</Text>
       <FlatList
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: COLORS.secondaryWhite,
+    backgroundColor: "white",
   },
   title: {
     fontSize: 24,

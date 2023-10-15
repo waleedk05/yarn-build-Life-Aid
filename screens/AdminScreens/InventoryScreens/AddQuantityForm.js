@@ -95,82 +95,84 @@ const AddQuantityForm = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <View style={{ alignItems: 'flex-start', margin: 20, }}>
+        <ScrollView>
+          <Text style={styles.title}>Fill out the form to add blood units.</Text>
 
+          <TextInput
+            placeholder="Donation ID"
+            value={donationId}
+            onChangeText={(text) => setDonationId(text)}
+            keyboardType="numeric"
+            style={styles.input}
+            maxLength={6} // Enforce exactly 6 digits
+          />
 
-        <Text style={styles.title}>Fill out the form to add blood units.</Text>
+          <TextInput
+            placeholder="CNIC (e.g., 00000-0000000-0)"
+            value={formatCnicInput(cnic)} // Format CNIC input
+            onChangeText={(text) => setCnic(text)}
+            keyboardType="numeric"
+            style={styles.input}
+            maxLength={15} // Enforce exactly 13 digits with "-" characters
+          />
+          <TextInput
+            placeholder="Donor Name"
+            value={donorName}
+            onChangeText={(text) => setDonorName(text)}
+            style={styles.input}
+          />
+          <TextInput
+            value={item.itemName}
+            editable={false} // Set to false to make it uneditable
+            style={styles.input}
+          />
 
-        <TextInput
-          placeholder="Donation ID"
-          value={donationId}
-          onChangeText={(text) => setDonationId(text)}
-          keyboardType="numeric"
-          style={styles.input}
-          maxLength={6} // Enforce exactly 6 digits
-        />
+          {/* Display the selected donation date */}
+          <CustomDatePicker
+            selectedDate={donationDate}
+            onDateChange={(date) => {
+              setDonationDate(date);
+              setExpiryDate(calculateExpiryDate(date)); // Calculate and set the expiry date
+            }}
+          />
 
-        <TextInput
-          placeholder="CNIC (e.g., 00000-0000000-0)"
-          value={formatCnicInput(cnic)} // Format CNIC input
-          onChangeText={(text) => setCnic(text)}
-          keyboardType="numeric"
-          style={styles.input}
-          maxLength={15} // Enforce exactly 13 digits with "-" characters
-        />
-        <TextInput
-          placeholder="Donor Name"
-          value={donorName}
-          onChangeText={(text) => setDonorName(text)}
-          style={styles.input}
-        />
-        <TextInput
-          value={item.itemName}
-          editable={false} // Set to false to make it uneditable
-          style={styles.input}
-        />
+          <TextInput
+            placeholder="Date of Expiry"
+            value={expiryDate}
+            onChangeText={(text) => setExpiryDate(text)}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Units i.e (1 Unit =525mL)"
+            value={quantityChange}
+            onChangeText={(text) => setQuantityChange(text)}
+            style={styles.input}
+            keyboardType="numeric"
+          />
+          <View style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 20 }}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={COLORS.primaryRed} />
+            ) : (
+              <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
+                <Text style={styles.buttonText}>Add</Text>
+              </TouchableOpacity>
+            )}
 
-        {/* Display the selected donation date */}
-        <CustomDatePicker
-          selectedDate={donationDate}
-          onDateChange={(date) => {
-            setDonationDate(date);
-            setExpiryDate(calculateExpiryDate(date)); // Calculate and set the expiry date
-          }}
-        />
+          </View>
+        </ScrollView>
+      </View>
 
-        <TextInput
-          placeholder="Date of Expiry"
-          value={expiryDate}
-          onChangeText={(text) => setExpiryDate(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Units i.e (1 Unit =525mL)"
-          value={quantityChange}
-          onChangeText={(text) => setQuantityChange(text)}
-          style={styles.input}
-          keyboardType="numeric"
-        />
-        <View style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 20 }}>
-          {isLoading ? (
-            <ActivityIndicator size="large" color={COLORS.primaryRed} />
-          ) : (
-            <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
-              <Text style={styles.buttonText}>Add</Text>
-            </TouchableOpacity>
-          )}
-
-        </View>
-      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+
     flex: 1,
-    alignItems: 'flex-start',
+
+    backgroundColor: 'white'
   },
   title: {
     fontSize: 20,

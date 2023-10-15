@@ -82,33 +82,38 @@ const PatientInfo = () => {
     <View style={styles.container}>
       <LoadingModal visible={isLoading} />
       <Text style={styles.title}>Patient List</Text>
+      <View style={{
+        flex: 1,
+        padding: 1,
+        marginLeft: 10,
+        marginRight: 10,
+      }}>
+        {/* Search Bar */}
+        <TextInput
+          placeholder="Search Patients"
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+          style={styles.searchInput}
+        />
 
-      {/* Search Bar */}
-      <TextInput
-        placeholder="Search Patients"
-        value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-        style={styles.searchInput}
-      />
+        {/* List of Patients */}
+        <FlatList
+          style={styles.Flatlist}
+          data={searchResults.length > 0 ? searchResults : patients}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.listItem}>
+              <Text style={styles.patientItem}>{item.name}</Text>
 
+              {/* View Button */}
+              <TouchableOpacity style={styles.Flatlist_button} onPress={() => handleView(item)}>
+                <Text style={styles.Flatlist_buttonText}>View</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
 
-
-      {/* List of Patients */}
-      <FlatList
-        style={styles.Flatlist}
-        data={searchResults.length > 0 ? searchResults : patients}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <Text style={styles.patientItem}>{item.name}</Text>
-
-            {/* View Button */}
-            <TouchableOpacity style={styles.Flatlist_button} onPress={() => handleView(item)}>
-              <Text style={styles.Flatlist_buttonText}>View</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleAdd}>
         <Text style={styles.buttonText}>Add New Patient</Text>
@@ -122,11 +127,9 @@ const PatientInfo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     flex: 1,
-    padding: 2,
-    marginLeft: 20,
-    marginRight: 20
+
+    backgroundColor: 'white',
   },
   Flatlist: {
     padding: 10,
@@ -137,7 +140,9 @@ const styles = StyleSheet.create({
     color: COLORS.primaryRed,
     fontWeight: 'bold',
     fontSize: 36,
-    marginBottom: 55,
+    marginBottom: 20,
+    marginTop: 10,
+    alignSelf: 'center'
   },
   searchInput: {
     width: 350,
@@ -151,10 +156,21 @@ const styles = StyleSheet.create({
   },
   listItem: {
     flexDirection: 'row',
-    borderColor: COLORS.black,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    elevation: 8,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginBottom: 20,
+    marginRight: 5,
+    marginLeft: 5,
+    marginTop: 2
+
   },
   patientItem: {
     flex: 1,
@@ -168,12 +184,11 @@ const styles = StyleSheet.create({
   Flatlist_button: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 9,
-    paddingHorizontal: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
     borderRadius: 10,
-    elevation: 10,
+    elevation: 5,
     marginLeft: 8,
-    marginBottom: 20,
     backgroundColor: COLORS.primaryRed,
   },
   button: {
@@ -185,12 +200,12 @@ const styles = StyleSheet.create({
     elevation: 10,
     marginBottom: 20,
     backgroundColor: COLORS.primaryRed,
-    marginLeft: 55,
-    marginRight: 55
+    marginLeft: 75,
+    marginRight: 75
   },
   Flatlist_buttonText: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 14,
   },
   buttonText: {
     color: 'white',

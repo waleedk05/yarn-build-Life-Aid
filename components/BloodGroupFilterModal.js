@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, BackHandler } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { COLORS } from '../constants';
-
-const BloodGroupFilterModal = ({ isVisible, onApplyFilter, onClose }) => {
+import { useNavigation } from '@react-navigation/native';
+const BloodGroupFilterModal = ({ isVisible, onApplyFilter, onClose, }) => {
   const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
+  const navigation = useNavigation();
+  //Function to navigate back when hardware back button is pressed
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.goBack();
+        return true; // Prevent default behavior (exit the app)
+      }
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
 
   return (
     <Modal visible={isVisible} animationType="slide">
-    <View style={styles.Container}>
-    <Text style={styles.modalTitle}>Filter</Text></View>
+      <View style={styles.Container}>
+        <Text style={styles.modalTitle}>Filter</Text></View>
       <View style={styles.modalContainer}>
         <View style={styles.contentContainer}>
           <Text style={styles.text}>Blood Group</Text>
@@ -30,14 +43,25 @@ const BloodGroupFilterModal = ({ isVisible, onApplyFilter, onClose }) => {
           </Picker>
         </View>
       </View>
-      <View ><TouchableOpacity style={styles.applyButton}
+      <View >
+        <TouchableOpacity style={styles.applyButton}
           onPress={() => {
             onApplyFilter(selectedBloodGroup);
             onClose();
           }}
         >
           <Text style={styles.applyButtonText}>Apply Filter</Text>
-        </TouchableOpacity></View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.backButton}
+          onPress={() => {
+            onClose();
+          }}
+        >
+          <Text style={styles.applyButtonText}>Back</Text>
+        </TouchableOpacity>
+      </View>
     </Modal>
   );
 };
@@ -77,12 +101,22 @@ const styles = StyleSheet.create({
   applyButton: {
     backgroundColor: COLORS.primaryRed,
     padding: 12,
-    marginHorizontal:120,
-    marginLeft:120,
+    marginHorizontal: 120,
+    marginLeft: 120,
     borderRadius: 14,
     alignItems: 'center',
     marginTop: 20, // Adjust top margin as needed
-    marginBottom:70
+    marginBottom: 20
+  },
+  backButton: {
+    backgroundColor: COLORS.primaryRed,
+    padding: 12,
+    marginHorizontal: 120,
+    marginLeft: 120,
+    borderRadius: 14,
+    alignItems: 'center',
+    marginTop: 20, // Adjust top margin as needed
+    marginBottom: 250
   },
   applyButtonText: {
     fontWeight: 'bold',
