@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, Alert, BackHandler } from 'react-native';
-
 import PageContainer from '../../components/PageContainer';
-
 import { icons } from '../../constants';
-
 import { COLORS, FONTS, SIZES } from "../../constants/themes";
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
+import { getDatabase, ref, onValue, update, get } from "firebase/database";
 
 
 const Home = (props) => {
@@ -33,8 +32,37 @@ const Home = (props) => {
       'hardwareBackPress',
       backAction
     );
-
     return () => backHandler.remove();
+  }, []);
+
+  // Initialize Realtime Firebase Database
+  const RealtimeDatabase = getDatabase();
+  //Function to display notification badge
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const notificationsRef = ref(RealtimeDatabase, 'notifications');
+
+    // Set up a listener for real-time updates
+    const unsubscribe = onValue(notificationsRef, (snapshot) => {
+      const notificationData = [];
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const notification = childSnapshot.val();
+          if (!notification.read && notification.message) {
+            notificationData.push(notification);
+          }
+        });
+      }
+
+      setUnreadCount(notificationData.length);
+    });
+
+    return () => {
+      // Clean up the listener when the component is unmounted
+      unsubscribe();
+    };
   }, []);
 
 
@@ -48,14 +76,47 @@ const Home = (props) => {
             marginRight: 15,
             marginTop: 20
           }}>
+            <View>
+              <View
+                style={{
+                  height: 6,
+                  width: 6,
+                  backgroundColor: 'black',
+                  borderRadius: 3,
+                  position: 'absolute',
+                  right: 15,
+                  top: -6,
+                  marginBottom: 20
+                }}
+              >
+
+              </View>
+              <TouchableOpacity onPress={() => {
+                props.navigation.navigate('NotificationScreen');
+              }}>
+                <Ionicons style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: -10,
+
+                }}
+                  name="notifications-outline"
+                  size={28}
+                  color='red'
+                />
+
+                {unreadCount > 0 && (
+                  <View style={styles.notificationBadge}>
+                    <Text style={styles.notificationBadgeText}>{unreadCount}</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
 
             <View style={styles.blocks}>
               <Text style={styles.text}>Quote of the Day</Text>
               <Text style={styles.quote}>Saving lives brings inner peace.</Text>
             </View>
-
-
-
             <View style={styles.blocks}>
               <View style={{ flexDirection: 'row' }}>
                 <Image source={icons.requestIconRed} style={{ height: 35, width: 35 }} />
@@ -106,7 +167,7 @@ const styles = StyleSheet.create({
     padding: 25,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginTop: 15,
+    marginTop: 25,
 
   },
 
@@ -119,7 +180,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.primaryRed,
     textAlign: 'center',
-    paddingBottom: 15
+    paddingBottom: 15,
+
   },
   text2: {
     fontSize: 23,
@@ -140,7 +202,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.black,
     textAlign: 'center'
-  }
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationBadgeText: {
+    color: 'red',
+    fontSize: 12,
+  },
 });
 
 export default Home;

@@ -21,7 +21,7 @@ import { useState } from 'react';
 
 // Import the necessary functions for email authentication
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../config';
+import { db, auth } from '../../config';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -107,7 +107,7 @@ const Signin = () => {
   const handleSignIn = () => {
     setIsLoading(true); // Show the activity indicator
 
-    const auth = getAuth();
+
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {

@@ -36,7 +36,7 @@ import {
   DonorDetails,
   DonorNames
 } from "./screens/AdminScreens"
-import { About, Invite, Menu, Settings, Home } from "./screens/MainScreens";
+import { About, Invite, Menu, Settings, NotificationScreen } from "./screens/MainScreens";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -59,9 +59,7 @@ const App = () => {
   }
 
   return (
-
     <NavigationContainer onReady={onLayoutRootView} initialRouteName="GetStarted">
-
       <Stack.Navigator>
 
         <Stack.Screen
@@ -112,6 +110,13 @@ const App = () => {
         <Stack.Screen name='Settings' component={Settings}
           options={{
             title: 'Settings',
+            headerStyle: { backgroundColor: '#CF0A0A' },
+            headerTitleStyle: { color: 'white' },
+            headerTintColor: 'white'
+          }} />
+        <Stack.Screen name='NotificationScreen' component={NotificationScreen}
+          options={{
+            title: 'Notifications',
             headerStyle: { backgroundColor: '#CF0A0A' },
             headerTitleStyle: { color: 'white' },
             headerTintColor: 'white'
@@ -279,7 +284,10 @@ const App = () => {
           }} />
 
       </Stack.Navigator>
+
     </NavigationContainer>
+
+
   );
 };
 

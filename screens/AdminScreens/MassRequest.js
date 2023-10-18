@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Image, SafeAreaView, BackHandler, Alert } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
+import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Image, SafeAreaView, BackHandler, Alert, ActivityIndicator } from 'react-native';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../../config';
 import { COLORS, icons } from '../../constants';
 import CustomButton from '../../components/CustomButton';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import BloodGroupFilterModal from '../../components/BloodGroupFilterModal';
 import LoadingModal from '../../components/LoadingModel';
+import { getDatabase, ref, set, push, update } from "firebase/database";
+
 
 const MassRequest = ({ navigation }) => {
   const [donors, setDonors] = useState([]);
@@ -18,6 +20,12 @@ const MassRequest = ({ navigation }) => {
   const [buttonColor, setButtonColor] = useState(COLORS.primaryRed); // State for button color
   // To show loading on the screen
   const [isLoading, setIsLoading] = useState(true);
+  //To show sending on the button
+  const [isSending, setSending] = useState(false);
+  // Initialize Realtime Firebase Database
+  const database = getDatabase();
+  //Setting a custom Notification Message
+  const [customMessage, setCustomMessage] = useState('JSF needs your help.');
 
   function renderHeader() {
 
@@ -78,6 +86,8 @@ const MassRequest = ({ navigation }) => {
     fetchData();
   }, [selectedBloodGroup]);
 
+
+
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'users'));
@@ -124,20 +134,72 @@ const MassRequest = ({ navigation }) => {
     setSelectAll(!selectAll); // Toggle the "Select All" state
   };
 
-  const sendRequests = () => {
-    // Implement the logic to send requests to selected donors
-    // You can send requests to the users in the selectedDonors array
-    console.log('Sending requests to:', selectedDonors);
-    // Show an alert after sending requests
-    Alert.alert(
-      'Request Sent',
-      'Your request has been sent successfully.',
-      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
-    );
-    // Clear the selection after sending requests
-    setSelectedDonors([]);
-    setSelectAll(false); // Deselect all after sending requests
+  const sendRequests = async () => {
+    setSending(true);
+    if (selectedDonors.length === 0) {
+      return; // If no donor is selected
+    }
+
+    try {
+      const notificationsRef = ref(database, 'notifications');
+      const notificationId = push(notificationsRef).key;
+      const uniqueNotifications = [{
+        notificationId: notificationId,
+        message: customMessage,
+        timestamp: new Date().getTime(),
+        read: false // This sets the notification as unread by default
+      }];
+
+      uniqueNotifications.forEach((notification) => {
+        const newNotificationRef = push(ref(database, 'notifications'));
+        set(newNotificationRef, notification);
+      });
+
+      //Custom Alert message based on the selection
+      let alertMessage;
+      if (selectedDonors.length === 1) {
+        alertMessage = `Request sent to ${selectedDonors[0].fullName}.`;
+      } else {
+        alertMessage = `Requests sent to ${selectedDonors.length} ${selectedBloodGroup} donors.`;
+      }
+
+      // Show an alert after sending the notifications
+      Alert.alert(
+        'Request Sent',
+        alertMessage,
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+      );
+      setSending(false);
+      // Clear the selection after sending notifications
+      setSelectedDonors([]);
+      setSelectAll(false); // Deselect all after sending notifications
+
+    } catch (error) {
+      console.error('Error sending notifications:', error);
+    }
   };
+
+  const saveCustomMessage = async () => {
+    try {
+      const notificationsRef = ref(database, 'notifications');
+
+      const newNotificationRef = push(notificationsRef);
+      const uniqueId = newNotificationRef.key;
+
+      if (uniqueId) {
+        const updates = {};
+        updates[`${uniqueId}/customMessage`] = customMessage;
+        await update(notificationsRef, updates);
+
+        Alert.alert('Message Saved', 'Custom message has been saved.');
+      } else {
+        console.error('Error generating unique ID');
+      }
+    } catch (error) {
+      console.error('Error saving custom message:', error);
+    }
+  };
+
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -163,6 +225,8 @@ const MassRequest = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <LoadingModal visible={isLoading} />
@@ -182,6 +246,22 @@ const MassRequest = ({ navigation }) => {
           <Image style={styles.filterIcon} source={icons.filterIcon} />
         </TouchableOpacity>
       </View>
+
+      <View style={styles.row}>
+        <TextInput
+          style={styles.customMessageInput}
+          placeholder="Enter custom message..."
+          value={customMessage}
+          onChangeText={(text) => setCustomMessage(text)}
+        />
+        <TouchableOpacity
+          style={styles.saveButton}
+          onPress={saveCustomMessage}
+        >
+          <Text style={styles.saveButtonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={{ alignContent: 'center' }}>
         <TouchableOpacity
           style={[
@@ -205,19 +285,23 @@ const MassRequest = ({ navigation }) => {
         style={styles.list}
       />
 
-
       <BloodGroupFilterModal
         isVisible={isModalVisible}
         onApplyFilter={applyBloodGroupFilter}
         onClose={() => setIsModalVisible(false)}
       />
       <View style={{ borderRadius: 30, marginHorizontal: 20 }}>
-        <CustomButton
-          title={`Send Requests to ${selectedDonors.length} ${selectedBloodGroup} Donors`}
-          onPress={sendRequests}
-          disabled={selectedDonors.length === 0}
-          color={buttonColor}
-        />
+        {isSending ? (
+          <ActivityIndicator size="large" color={COLORS.primaryRed} />
+        ) : (
+          <CustomButton
+            title={`Send Requests to ${selectedDonors.length} ${selectedBloodGroup} Donors`}
+            onPress={sendRequests}
+            disabled={selectedDonors.length === 0}
+            color={buttonColor}
+          />
+        )}
+
       </View>
     </SafeAreaView>
 
@@ -234,7 +318,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 5,
     color: COLORS.primaryRed
   },
   filterIcon: {
@@ -263,11 +347,34 @@ const styles = StyleSheet.create({
     width: 85,
     backgroundColor: COLORS.primaryRed,
     borderRadius: 5,
-
   },
   selectAllText: {
     padding: 2,
     color: 'white',
+  },
+  customMessageInput: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 1,
+    marginBottom: 15,
+    marginLeft: 18,
+    marginRight: 15,
+    width: 280
+  },
+  saveButton: {
+    paddingVertical: 4,
+    marginRight: 290,
+    marginBottom: 8,
+    width: 60,
+    backgroundColor: COLORS.primaryRed,
+    borderRadius: 5,
+  },
+  saveButtonText: {
+    padding: 2,
+    color: 'white',
+    alignSelf: 'center'
   },
   list: {
     marginBottom: 5

@@ -28,7 +28,7 @@ const whatsapp = require('../assets/icons/whatsapp_logo.png')
 const gmail = require('../assets/icons/email_logo.png')
 const filterIcon = require('../assets/icons/filter_icon.png')
 const refreshIcon = require('../assets/icons/refresh_icon_red.png')
-
+const notificationIcon = require('../assets/icons/notification_icon.png')
 export default {
   showPasswordIcon,
   hidePasswordIcon,
@@ -59,6 +59,7 @@ export default {
   whatsapp,
   gmail,
   filterIcon,
-  refreshIcon
+  refreshIcon,
+  notificationIcon
 
 };

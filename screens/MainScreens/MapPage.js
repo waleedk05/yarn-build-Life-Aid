@@ -6,6 +6,7 @@ import CurrentLocationButton from '../../components/CurrentLocationButton';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../config'; // Import your Firebase config
 import icons from '../../constants/icons';
+import { PROVIDER_GOOGLE } from 'react-native-maps';
 
 const bloodGroupColors = {
   'A+': '#008000', //dark green
@@ -144,6 +145,7 @@ const MapPage = () => {
         <Text>{errorMsg}</Text>
       ) : location ? (
         <MapView
+          provider='PROVIDER_GOOGLE'
           ref={mapViewRef}
           style={styles.map}
           initialRegion={{

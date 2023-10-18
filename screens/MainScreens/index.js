@@ -7,7 +7,7 @@ import MapPage from "./MapPage";
 import Invite from "./Invite";
 import About from "./About";
 import Settings from "./Settings";
-
+import NotificationScreen from "./NotificationScreen";
 
 export {
     Home,
@@ -18,5 +18,6 @@ export {
     Menu,
     Invite,
     About,
-    Settings
+    Settings,
+    NotificationScreen
 };

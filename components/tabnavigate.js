@@ -21,6 +21,7 @@ const Tab = createBottomTabNavigator();
 
 
 function Bottomtab({ navigation }) {
+    //FUnction to fetch profile picture and user data
     const [profilePicture, setProfilePicture] = useState(null);
 
     useEffect(() => {
@@ -52,9 +53,13 @@ function Bottomtab({ navigation }) {
 
         fetchUserData();
     }, []);
+
+
+
     return (
         <Tab.Navigator
             initialRouteName='Home'
+
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused }) => {
                     let icon;
@@ -88,65 +93,40 @@ function Bottomtab({ navigation }) {
                 tabBarLabelStyle: { marginBottom: 10, marginTop: 10, color: 'black', fontWeight: 'bold', fontSize: 12, }
             })}
         >
-            <Tab.Screen name="Home" component={Home} options={{
-                title: 'Home',
+            <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    title: 'Home',
 
-                headerTitleStyle: { color: 'white', fontSize: 36, },
-                headerStyle: {
-                    backgroundColor: '#CF0A0A',
-                    height: 120,
-                    elevation: 20,
-                    shadowColor: 'black',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowRadius: 6,
-                    shadowOpacity: 0.3,
+                    headerTitleStyle: { color: 'white', fontSize: 34, },
+                    headerStyle: {
+                        backgroundColor: '#CF0A0A',
+                        height: 90,
+                        elevation: 20,
+                        shadowColor: 'black',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowRadius: 6,
+                        shadowOpacity: 0.3,
 
-                },
+                    },
+                    headerLeft: () => ( // Custom header with image
 
-                headerRight: () => ( // Custom header with image
-
-                    <View>
-                        <View
-                            style={{
-                                height: 6,
-                                width: 6,
-                                backgroundColor: 'black',
-                                borderRadius: 3,
-                                position: 'absolute',
-                                right: 15,
-                                top: -6,
-                            }}
-                        ></View>
-                        <TouchableOpacity onPress={() => console.log('Pressed')}>
-                            <Ionicons style={{
-                                position: 'absolute',
-                                right: 10,
-                                top: -10,
-                            }}
-                                name="notifications-outline"
-                                size={28}
-                                color={'white'}
-                            />
+                        <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+                            {profilePicture ? (
+                                <Image
+                                    source={{ uri: profilePicture }}
+                                    style={{ width: 60, borderRadius: 50, height: 60, marginRight: 10, marginLeft: 20 }}
+                                />
+                            ) : (
+                                <Image
+                                    source={icons.profilePicWhite}
+                                    style={{ width: 55, height: 55, marginRight: 10, marginLeft: 20 }}
+                                />
+                            )}
                         </TouchableOpacity>
-                    </View>
-                ),
-                headerLeft: () => ( // Custom header with image
-
-                    <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
-                        {profilePicture ? (
-                            <Image
-                                source={{ uri: profilePicture }}
-                                style={{ width: 60, borderRadius: 50, height: 60, marginRight: 10, marginLeft: 20 }}
-                            />
-                        ) : (
-                            <Image
-                                source={icons.profilePicWhite}
-                                style={{ width: 55, height: 55, marginRight: 10, marginLeft: 20 }}
-                            />
-                        )}
-                    </TouchableOpacity>
-                ),
-            }} />
+                    ),
+                }} />
 
             <Tab.Screen name="RequestPage" component={RequestPage}
                 options={{
@@ -175,7 +155,7 @@ function Bottomtab({ navigation }) {
                                     top: -6,
                                 }}
                             ></View>
-                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
                                 <Ionicons style={{
                                     position: 'absolute',
                                     right: 10,
@@ -216,7 +196,7 @@ function Bottomtab({ navigation }) {
                                     top: -6,
                                 }}
                             ></View>
-                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
                                 <Ionicons style={{
                                     position: 'absolute',
                                     right: 10,
@@ -257,7 +237,7 @@ function Bottomtab({ navigation }) {
                                     top: -6,
                                 }}
                             ></View>
-                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
                                 <Ionicons style={{
                                     position: 'absolute',
                                     right: 10,
@@ -297,7 +277,7 @@ function Bottomtab({ navigation }) {
                                     top: -6,
                                 }}
                             ></View>
-                            <TouchableOpacity onPress={() => console.log('Pressed')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
                                 <Ionicons style={{
                                     position: 'absolute',
                                     right: 10,
@@ -315,5 +295,23 @@ function Bottomtab({ navigation }) {
         </Tab.Navigator>
     )
 }
+
+const styles = StyleSheet.create({
+    notificationBadge: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        width: 20,
+        height: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    notificationBadgeText: {
+        color: 'red',
+        fontSize: 12,
+    },
+});
 
 export default Bottomtab;
